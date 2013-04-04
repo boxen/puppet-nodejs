@@ -1,9 +1,27 @@
-define nodejs::local($version, $ensure = present) {
-  require join(['nodejs', join(split($version, '[.]'), '-')], '::')
+# Public: Make sure a certain nodejs version is installed and configured
+#         to be used in a certain directory.
+#
+# Usage:
+#
+#   nodejs::local { '/path/to/somewhere': version => 'v0.10' }
 
-  file { "${name}/.nvm-version":
+define nodejs::local(
+  $version = undef,
+  $path    = $title,
+  $ensure  = present
+) {
+  validate_re($ensure, '\A(present|absent)\z', 'Ensure must be one of present or absent')
+
+  if $ensure == present {
+    validate_re($version, '\Av\d+\.\d+(\.\d+)*\z', 'Version must be of the form vN.N(.N)')
+
+    include join(['nodejs', join(split($version, '\.'), '_')], '::')
+  }
+
+  file { "${path}/.node-version":
     ensure  => $ensure,
-    content => "v${version}\n",
+    content => "${version}\n",
     replace => true
   }
 }
+

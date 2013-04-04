@@ -1,28 +1,46 @@
-define nodejs($ensure  = 'installed') {
-  require nvm
+# Public: Install nodenv so nodejs versions can be installed
+#
+# Usage:
+#
+#   include nodejs
 
-  $version   = "v${name}"
-  $archive   = "${version}.tar.bz2"
-  $os        = $::macosx_productversion_major
-  $url       = "http://s3.amazonaws.com/boxen-downloads/nvm/${os}/${archive}"
-  $curl      = "(curl ${url} | tar xjf -)"
-  $install   = "(. ${nvm::dir}/nvm.sh && nvm install ${version})"
-  $srcdir    = "${nvm::dir}/src/node-${version}"
+class nodejs {
+  include boxen::config
+  include nodejs::config
+  include nodejs::rehash
 
-  # FIX: Figure out a way to remove any aliases too.
+  file {
+    [$nodejs::config::root, "${nodejs::config::root}/versions"]:
+      ensure => directory;
+    "${boxen::config::envdir}/nodenv.sh":
+      source => 'puppet:///modules/nodejs/nodenv.sh' ;
+  }
 
-  if $ensure == 'absent' {
-    file { ["${nvm::dir}/#{version}", $srcdir, "${srcdir}.tar.gz"]:
-      ensure => absent,
-      force  => true
-    }
-  } else {
-    exec { "nvm-install-${name}":
-      command  => "${curl} || ${install}",
-      cwd      => $nvm::dir,
-      provider => 'shell',
-      timeout  => 0,
-      creates  => "${nvm::dir}/${version}"
-    }
+  $git_init   = 'git init .'
+  $git_remote = 'git remote add origin https://github.com/wfarr/nodenv.git'
+  $git_fetch  = 'git fetch -q origin'
+  $git_reset  = "git reset --hard ${nodejs::config::nodenv_version}"
+
+  exec { 'nodenv-setup-repo':
+    command => "${git_init} && ${git_remote} && ${git_fetch} && ${git_reset}",
+    cwd     => $nodejs::config::root,
+    creates => "${nodejs::config::root}/bin/nodenv",
+    require => [ File[$nodejs::config::root], Class['git'] ]
+  }
+
+  exec { "ensure-nodenv-version-${nodejs::config::nodenv_version}":
+    command => "${git_fetch} && git reset --hard ${nodejs::config::nodenv_version}",
+    unless  => "git describe --tags --exact-match `git rev-parse HEAD` | grep ${nodejs::config::nodenv_version}",
+    cwd     => $nodejs::config::root,
+    require => Exec['nodenv-setup-repo']
+  }
+
+  exec { 'purge nvm':
+    command => "rm -rf ${boxen::config::home}/nvm",
+    onlyif  => "test -d ${boxen::config::home}/nvm"
+  }
+
+  file { "${boxen::config::home}/env.d/nvm.sh":
+    ensure => absent
   }
 }
