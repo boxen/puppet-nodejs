@@ -1,5 +1,7 @@
 # nodejs Puppet Module for Boxen
 
+[![Build Status](https://travis-ci.org/boxen/puppet-nodejs.png?branch=master)](https://travis-ci.org/boxen/puppet-nodejs)
+
 Using nodenv for nodejs version management,
 automates installation and configuration of nodejs versions.
 
