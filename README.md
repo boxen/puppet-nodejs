@@ -17,7 +17,7 @@ nodejs { 'v0.10.1': }
 
 # install some npm modules
 nodejs::module { 'bower':
-  nodejs_version => 'v0.10'
+  node_version => 'v0.10'
 }
 ```
 
