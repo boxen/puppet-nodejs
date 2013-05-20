@@ -6,11 +6,11 @@
 
 class nodejs::v0_10 {
   include nodejs::config
-  include nodejs::v0_10_5
+  include nodejs::v0_10_7
 
   file { "${nodejs::config::root}/versions/v0.10":
     ensure => link,
-    target => "${nodejs::config::root}/versions/v0.10.5"
+    target => "${nodejs::config::root}/versions/v0.10.7"
   }
 }
 
