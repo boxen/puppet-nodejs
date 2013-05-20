@@ -24,6 +24,7 @@ class nodejs(
 
   repository { $nodenv_root:
     ensure => $nodenv_version,
+    force  => true,
     source => 'wfarr/nodenv',
     user   => $nodenv_user
   }
