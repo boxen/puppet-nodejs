@@ -9,14 +9,14 @@ define nodejs::module(
   $module = $title,
   $ensure = installed
 ) {
-  include nodejs::config
   require join(['nodejs', join(split($node_version, '\.'), '_')], '::')
 
   npm_module { $name:
     ensure       => $ensure,
     module       => $module,
     node_version => $node_version,
-    nodenv_root  => $nodejs::config::root,
+    nodenv_root  => $nodejs::nodenv_root,
+    user         => $nodejs::nodenv_user,
     provider     => nodenv
   }
 }

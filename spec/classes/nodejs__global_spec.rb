@@ -4,8 +4,6 @@ describe "nodejs::global" do
   let(:facts) { default_test_facts }
 
   it do
-    should include_class("nodejs::config")
-
     should include_class("nodejs::v0_10")
 
     should contain_file("/test/boxen/nodenv/version").with({

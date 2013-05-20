@@ -23,5 +23,6 @@ nodejs::module { 'bower':
 
 ## Required Puppet Modules
 
-* boxen
-* stdlib
+* boxen ( OS X only ) > 2.1
+* repository > 2.2
+* stdlib >= 3.0.0

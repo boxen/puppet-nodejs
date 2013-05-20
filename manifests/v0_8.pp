@@ -5,12 +5,12 @@
 #   include nodejs::v0_8
 
 class nodejs::v0_8 {
-  include nodejs::config
-  include nodejs::v0_8_8
+  require nodejs
+  require nodejs::v0_8_8
 
-  file { "${nodejs::config::root}/versions/v0.8":
+  file { "${nodejs::nodenv_root}/versions/v0.8":
     ensure => link,
-    target => "${nodejs::config::root}/versions/v0.8.8"
+    owner  => $nodejs::nodenv_user,
+    target => "${nodejs::nodenv_root}/versions/v0.8.8"
   }
 }
-

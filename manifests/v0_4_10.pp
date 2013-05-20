@@ -9,4 +9,3 @@ class nodejs::v0_4_10 {
     compile => true
   }
 }
-

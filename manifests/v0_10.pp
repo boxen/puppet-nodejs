@@ -5,12 +5,12 @@
 #   include nodejs::v0_10
 
 class nodejs::v0_10 {
-  include nodejs::config
-  include nodejs::v0_10_5
+  require nodejs
+  require nodejs::v0_10_5
 
-  file { "${nodejs::config::root}/versions/v0.10":
+  file { "${nodejs::nodenv_root}/versions/v0.10":
     ensure => link,
-    target => "${nodejs::config::root}/versions/v0.10.5"
+    owner  => $nodejs::nodenv_user,
+    target => "${nodejs::nodenv_root}/versions/v0.10.5",
   }
 }
-

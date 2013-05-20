@@ -10,13 +10,17 @@ define nodejs::local(
   $path    = $title,
   $ensure  = present
 ) {
-  validate_re($ensure, '\A(present|absent)\z', 'Ensure must be one of present or absent')
+  validate_re($ensure, '\A(present|absent)\z',
+    'Ensure must be one of present or absent')
 
   if $ensure == present {
-    validate_re($version, '\Av\d+\.\d+(\.\d+)*\z', 'Version must be of the form vN.N(.N)')
+    validate_re($version, '\Av\d+\.\d+(\.\d+)*\z',
+      'Version must be of the form vN.N(.N)')
 
-    include join(['nodejs', join(split($version, '\.'), '_')], '::')
+    require join(['nodejs', join(split($version, '\.'), '_')], '::')
   }
+
+  validate_absolute_path($path)
 
   file { "${path}/.node-version":
     ensure  => $ensure,
@@ -24,4 +28,3 @@ define nodejs::local(
     replace => true
   }
 }
-

@@ -31,6 +31,24 @@ Puppet::Type.newtype :nodejs do
     end
   end
 
+  newparam :user do
+  end
+
+  newparam :nodenv_root do
+  end
+
+  autorequire :repository do
+    [@parameters[:nodenv_root].value]
+  end
+
+  autorequire :user do
+    Array.new.tap do |a|
+      if @parameters.include?(:user) && user = @parameters[:user].to_s
+        a << user if catalog.resource(:user, user)
+      end
+    end
+  end
+
   def initialize(*args)
     super
     self[:notify] = [ "Exec[nodenv rehash after nodejs install]" ]

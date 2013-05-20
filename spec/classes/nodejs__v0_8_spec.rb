@@ -4,7 +4,6 @@ describe "nodejs::v0_8" do
   let(:facts) { default_test_facts }
 
   it do
-    should include_class("nodejs::config")
     should include_class("nodejs::v0_8_8")
 
     should contain_file("/test/boxen/nodenv/versions/v0.8").with({

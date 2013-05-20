@@ -8,7 +8,7 @@ Puppet::Type.newtype :npm_module do
       provider.uninstall
     end
 
-    newvalue(/\A\d+\.\d+\.\d+\Z/) do
+    newvalue(/./) do
       current = provider.query[:ensure]
 
       begin
@@ -63,8 +63,19 @@ Puppet::Type.newtype :npm_module do
   newparam :nodenv_root do
   end
 
+  newparam :user do
+  end
+
   autorequire :nodejs do
     [@parameters[:node_version].value]
+  end
+
+  autorequire :user do
+    Array.new.tap do |a|
+      if @parameters.include?(:user) && user = @parameters[:user].to_s
+        a << user if catalog.resource(:user, user)
+      end
+    end
   end
 
   def exists?

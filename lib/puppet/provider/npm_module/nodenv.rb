@@ -66,7 +66,7 @@ Puppet::Type.type(:npm_module).provide :nodenv do
         "NODENV_VERSION" => @resource[:node_version]
       },
       :failonfail         => true,
-      :uid                => Facter[:boxen_user].value
+      :uid                => @resource[:user]
     }
   end
 

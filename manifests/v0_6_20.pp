@@ -9,4 +9,3 @@ class nodejs::v0_6_20 {
     compile => true
   }
 }
-

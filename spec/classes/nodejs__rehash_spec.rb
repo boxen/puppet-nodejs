@@ -6,8 +6,6 @@ describe "nodejs::rehash" do
   let(:root)  { "/test/boxen/nodenv" }
 
   it do
-    should include_class("nodejs::config")
-
     shared_params = {
       :refreshonly => true,
       :command     => "NODENV_ROOT=#{root} #{root}/bin/nodenv rehash",

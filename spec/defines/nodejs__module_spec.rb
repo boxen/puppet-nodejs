@@ -8,7 +8,6 @@ describe "nodejs::module" do
   end
 
   it do
-    should include_class("nodejs::config")
     should include_class("nodejs::v0_10")
 
     should contain_npm_module("bower for v0.10").with({
@@ -16,6 +15,7 @@ describe "nodejs::module" do
       :module       => "bower",
       :node_version => "v0.10",
       :nodenv_root  => "/test/boxen/nodenv",
+      :user         => "testuser",
       :provider     => "nodenv"
     })
   end

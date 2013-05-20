@@ -33,14 +33,10 @@ Puppet::Type.type(:nodejs).provide :nodenv do
     {
       :combine            => true,
       :custom_environment => {
-        "NODENV_ROOT" => root
+        "NODENV_ROOT" => @resource[:nodenv_root]
       },
       :failonfail         => true,
-      :uid                => Facter[:boxen_user].value
+      :uid                => @resource[:user]
     }
-  end
-
-  def root
-    @root ||= "#{Facter[:boxen_home].value}/nodenv"
   end
 end
