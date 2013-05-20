@@ -7,7 +7,7 @@ Puppet::Type.type(:nodejs).provide :nodenv do
 
   def create
     command = [
-      commands(:nodenv),
+      command(:nodenv),
       "install",
       @resource[:version]
     ]
@@ -19,7 +19,7 @@ Puppet::Type.type(:nodejs).provide :nodenv do
 
   def destroy
     command = [
-      commands(:nodenv),
+      command(:nodenv),
       "uninstall",
       @resource[:version]
     ]
