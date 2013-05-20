@@ -15,7 +15,7 @@ define nodejs::version(
   nodejs { $version:
     ensure      => $ensure,
     compile     => $compile,
-    nodenv_root => $nodejs::nodenv_root,
-    user        => $nodejs::nodenv_user
+    nodenv_root => $::nodejs::nodenv_root,
+    user        => $::nodejs::nodenv_user
   }
 }
