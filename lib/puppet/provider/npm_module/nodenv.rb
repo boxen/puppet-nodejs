@@ -17,6 +17,7 @@ Puppet::Type.type(:npm_module).provide :nodenv do
 
     command << options[:justme] if options.has_key? :justme
     command << "--json"
+    command << "--silent"
 
     begin
       packages = JSON.parse(execute(command, command_opts))["dependencies"]
