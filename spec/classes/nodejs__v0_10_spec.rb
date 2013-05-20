@@ -5,11 +5,11 @@ describe "nodejs::v0_10" do
 
   it do
     should include_class("nodejs::config")
-    should include_class("nodejs::v0_10_5")
+    should include_class("nodejs::v0_10_7")
 
     should contain_file("/test/boxen/nodenv/versions/v0.10").with({
       :ensure => "link",
-      :target => "/test/boxen/nodenv/versions/v0.10.5"
+      :target => "/test/boxen/nodenv/versions/v0.10.7"
     })
   end
 end
