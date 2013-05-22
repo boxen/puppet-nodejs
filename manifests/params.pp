@@ -15,8 +15,7 @@ class nodejs::params {
     }
   }
 
-  $nodenv_version = 'v0.3.1'
-
+  $nodenv_version = 'v0.3.2'
 
   # Deprecated variables
 
