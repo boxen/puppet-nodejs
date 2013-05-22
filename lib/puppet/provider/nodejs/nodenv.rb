@@ -14,7 +14,13 @@ Puppet::Type.type(:nodejs).provide :nodenv do
 
     command << "--source" if @resource[:compile]
 
-    execute command, command_opts
+    if Puppet.version =~ /^3\./
+      execute command, command_opts
+    else
+      withenv command_env do
+        execute command
+      end
+    end
   end
 
   def destroy
@@ -24,7 +30,13 @@ Puppet::Type.type(:nodejs).provide :nodenv do
       @resource[:version]
     ]
 
-    execute command, command_opts
+    if Puppet.version =~ /^3\./
+      execute command, command_opts
+    else
+      withenv command_env do
+        execute command
+      end
+    end
   end
 
   def exists?
@@ -35,12 +47,16 @@ Puppet::Type.type(:nodejs).provide :nodenv do
   def command_opts
     {
       :combine            => true,
-      :custom_environment => {
-        "NODENV_ROOT" => @resource[:nodenv_root],
-        "PATH"        => "#{@resource[:nodenv_root]}/bin:/usr/bin:/usr/sbin:/bin:/sbin"
-      },
+      :custom_environment => command_env,
       :failonfail         => true,
       :uid                => @resource[:user]
+    }
+  end
+
+  def command_env
+    {
+      "NODENV_ROOT" => @resource[:nodenv_root],
+      "PATH"        => "#{@resource[:nodenv_root]}/bin:/usr/bin:/usr/sbin:/bin:/sbin"
     }
   end
 end
