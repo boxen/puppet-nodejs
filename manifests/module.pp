@@ -9,7 +9,8 @@ define nodejs::module(
   $module = $title,
   $ensure = installed
 ) {
-  require join(['nodejs', join(split($node_version, '\.'), '_')], '::')
+  $klass = join(['nodejs', join(split($node_version, '\.'), '_')], '::')
+  require $klass
 
   npm_module { $name:
     ensure       => $ensure,

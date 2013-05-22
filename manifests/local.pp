@@ -17,7 +17,8 @@ define nodejs::local(
     validate_re($version, '\Av\d+\.\d+(\.\d+)*\z',
       'Version must be of the form vN.N(.N)')
 
-    require join(['nodejs', join(split($version, '\.'), '_')], '::')
+    $klass = join(['nodejs', join(split($version, '\.'), '_')], '::')
+    require $klass
   }
 
   validate_absolute_path($path)
