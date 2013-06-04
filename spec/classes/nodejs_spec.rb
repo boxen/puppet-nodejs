@@ -11,7 +11,7 @@ describe "nodejs" do
     should include_class("nodejs::nvm")
 
     should contain_repository(root).with({
-      :ensure => "v0.3.1",
+      :ensure => "v0.3.3",
       :force  => true,
       :source => "wfarr/nodenv",
       :user   => "testuser"
