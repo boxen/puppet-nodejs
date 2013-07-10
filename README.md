@@ -26,3 +26,6 @@ nodejs::module { 'bower':
 * boxen ( OS X only ) > 2.1
 * repository > 2.2
 * stdlib >= 3.0.0
+
+##### Latest supported Node.js version
+v0.10.13
