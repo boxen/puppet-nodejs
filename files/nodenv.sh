@@ -6,3 +6,5 @@ export PATH=$BOXEN_HOME/nodenv/bin:$PATH
 
 eval "$(nodenv init -)"
 
+export PATH=node_modules/.bin:$PATH
+
