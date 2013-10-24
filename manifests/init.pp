@@ -32,6 +32,7 @@ class nodejs(
   file { "${nodejs::nodenv_root}/versions":
     ensure  => directory,
     owner   => $nodenv_user,
+    mode    => '0755',
     require => Repository[$nodenv_root]
   }
 }
