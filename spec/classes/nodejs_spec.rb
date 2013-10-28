@@ -19,14 +19,15 @@ describe "nodejs" do
 
     should contain_file(versions).with_ensure("directory")
 
-    should contain_file("/test/boxen/env.d/nodenv.sh").with_source("puppet:///modules/nodejs/nodenv.sh")
+    should contain_file("/test/boxen/env.d/nodenv.sh").with_ensure("absent")
+    should contain_boxen__env_script("nodejs").with_source("puppet:///modules/nodejs/nodenv.sh")
   end
 
   context "Linux" do
     let(:facts) { default_test_facts.merge(:osfamily => "Linux") }
 
     it do
-      should_not contain_file("/test/boxen/env.d/nodenv.sh")
+      should_not contain_boxen__env_script("nodejs")
     end
   end
 end

@@ -18,7 +18,12 @@ class nodejs(
     include boxen::config
 
     file { "${boxen::config::envdir}/nodenv.sh":
-      source => 'puppet:///modules/nodejs/nodenv.sh'
+      ensure => absent,
+    }
+
+    boxen::env_script { 'nodejs':
+      priority => 'higher',
+      source   => 'puppet:///modules/nodejs/nodenv.sh',
     }
   }
 
