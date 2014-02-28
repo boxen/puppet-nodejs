@@ -1,9 +1,11 @@
 require "json"
 require "puppet/util/execution"
+require "semver"
+
 
 Puppet::Type.type(:npm_module).provide :nodenv do
   include Puppet::Util::Execution
-
+  SHORT_VERSION = /^v?(\d+)\.(\d+)$/
   def npmlist options = {}
     unless File.directory? @resource[:nodenv_root]
       self.fail "NODENV_ROOT does not exist"
@@ -20,7 +22,7 @@ Puppet::Type.type(:npm_module).provide :nodenv do
     command << "--silent"
 
     begin
-      packages = JSON.parse(execute(command, command_opts))["dependencies"]
+      packages = JSON.parse(execute(command, command_opts_list))["dependencies"]
       Array.new.tap do |a|
         unless packages.nil?
           packages.each do |package, attrs|
@@ -67,6 +69,26 @@ Puppet::Type.type(:npm_module).provide :nodenv do
         "NODENV_VERSION" => @resource[:node_version]
       },
       :failonfail         => true,
+      :uid                => @resource[:user]
+    }
+  end
+
+  def node_version_long
+    if SHORT_VERSION =~ @resource[:node_version]
+      @resource[:node_version] + '.0'
+    else
+      @resource[:node_version]
+    end
+  end
+  def command_opts_list
+    {
+      :combine            => true,
+      :custom_environment => {
+        "NODENV_ROOT"    => @resource[:nodenv_root],
+        "NODENV_VERSION" => @resource[:node_version]
+      },
+      #Npm versions greater than 0.10.26 return 1 when no dependencies are returned
+      :failonfail         => SemVer.new(node_version_long) > SemVer.new('0.10.26'),
       :uid                => @resource[:user]
     }
   end
