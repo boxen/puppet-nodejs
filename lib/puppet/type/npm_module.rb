@@ -38,9 +38,9 @@ Puppet::Type.newtype :npm_module do
     def insync?(is)
       @should.each { |should|
         case should
-        when :present
+        when :present, :installed
           return true unless is == :absent
-        when :absent
+        when :absent, :uninstalled
           return true if is == :absent
         when *Array(is)
           return true
