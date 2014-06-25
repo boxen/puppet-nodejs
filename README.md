@@ -15,6 +15,9 @@ include nodejs::v0_8_8
 # install any arbitrary nodejs version
 nodejs { 'v0.10.1': }
 
+# set the global nodejs version
+class { 'nodejs::global': version => 'v0.10.1' }
+
 # install some npm modules
 nodejs::module { 'bower':
   node_version => 'v0.10'
