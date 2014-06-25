@@ -5,7 +5,7 @@ describe "nodejs::version" do
   let(:title) { "v0.10.0" }
 
   it do
-    should include_class("nodejs")
+    should contain_class("nodejs")
 
     should contain_nodejs("v0.10.0").with({
       :ensure  => "present",
