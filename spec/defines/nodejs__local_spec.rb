@@ -8,7 +8,7 @@ describe "nodejs::local" do
   end
 
   it do
-    should include_class("nodejs::v0_10")
+    should contain_class("nodejs::v0_10")
 
     should contain_file("#{title}/.node-version").with({
       :ensure  => "present",

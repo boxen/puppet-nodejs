@@ -7,8 +7,8 @@ describe "nodejs" do
   let(:versions) { "#{root}/versions" }
 
   it do
-    should include_class("nodejs::rehash")
-    should include_class("nodejs::nvm")
+    should contain_class("nodejs::rehash")
+    should contain_class("nodejs::nvm")
 
     should contain_repository(root).with({
       :ensure => "v0.3.3",
