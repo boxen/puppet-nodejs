@@ -75,7 +75,7 @@ Puppet::Type.type(:npm_module).provide :nodenv do
 
   def node_version_long
     if SHORT_VERSION =~ @resource[:node_version]
-      @resource[:node_version] + '.0'
+      @resource[:node_version] + '.999999'
     else
       @resource[:node_version]
     end
