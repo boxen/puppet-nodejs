@@ -6,7 +6,8 @@
 
 class nodejs::v0_6 {
   require nodejs
-  require nodejs::v0_6_20
+
+  nodejs::version { 'v0.6.20': }
 
   file { "${nodejs::nodenv_root}/versions/v0.6":
     ensure => link,

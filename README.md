@@ -8,9 +8,11 @@ automates installation and configuration of nodejs versions.
 ## Usage
 
 ``` puppet
-# include some provided versions
+# include short version aliases
 include nodejs::v0_10
-include nodejs::v0_8_8
+include nodejs::v0_8
+include nodejs::v0_6
+include nodejs::v0_4
 
 # install any arbitrary nodejs version
 nodejs::version { 'v0.10.1': }
