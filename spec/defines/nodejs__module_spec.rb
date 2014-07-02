@@ -8,7 +8,7 @@ describe "nodejs::module" do
   end
 
   it do
-    should contain_class("nodejs::v0_10")
+    should contain_nodejs__version("v0.10")
 
     should contain_npm_module("bower for v0.10").with({
       :ensure       => "installed",
