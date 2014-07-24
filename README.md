@@ -13,7 +13,7 @@ include nodejs::v0_10
 include nodejs::v0_8_8
 
 # install any arbitrary nodejs version
-nodejs { 'v0.10.1': }
+nodejs::version { 'v0.10.1': }
 
 # set the global nodejs version
 class { 'nodejs::global': version => 'v0.10.1' }
