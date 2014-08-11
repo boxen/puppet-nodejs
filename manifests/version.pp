@@ -12,10 +12,25 @@ define nodejs::version(
 ) {
   require nodejs
 
-  nodejs { $version:
-    ensure      => $ensure,
-    compile     => $compile,
-    nodenv_root => $::nodejs::nodenv_root,
-    user        => $::nodejs::nodenv_user
+  $alias_hash = hiera_hash('nodejs::version::alias', {})
+
+  if has_key($alias_hash, $version) {
+
+    $to = $alias_hash[$version]
+
+    nodejs::alias { $version:
+      ensure => $ensure,
+      to     => $to,
+    }
+
+  } else {
+
+    nodejs { $version:
+      ensure      => $ensure,
+      compile     => $compile,
+      nodenv_root => $::nodejs::nodenv_root,
+      user        => $::nodejs::nodenv_user
+    }
+
   }
 }

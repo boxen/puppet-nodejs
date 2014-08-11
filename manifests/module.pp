@@ -9,6 +9,9 @@ define nodejs::module(
   $module = $title,
   $ensure = installed
 ) {
+
+  require nodejs
+
   ensure_resource('nodejs::version', $node_version)
 
   npm_module { $name:
