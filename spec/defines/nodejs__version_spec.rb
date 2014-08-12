@@ -13,15 +13,40 @@ describe "nodejs::version" do
     })
   end
 
+  context "compile depending on configuration" do
+    let(:title) { "v0.6.20" }
+
+    it do
+      should contain_class("nodejs")
+
+      should contain_nodejs("v0.6.20").with({
+        :ensure  => "present",
+        :compile => true
+      })
+    end
+  end
+
+  context "fallback compile with short version" do
+    let(:title) { "v0.4.10" }
+
+    it do
+      should contain_class("nodejs")
+
+      should contain_nodejs("v0.4.10").with({
+        :ensure  => "present",
+        :compile => true
+      })
+    end
+  end
+
   context "non-default parameter values" do
     let(:params) do
-      { :ensure => "absent", :compile => true, :version => "v0.8.8" }
+      { :ensure => "absent", :version => "v0.8.8" }
     end
 
     it do
       should contain_nodejs("v0.8.8").with({
         :ensure  => "absent",
-        :compile => true,
         :version => "v0.8.8"
       })
     end

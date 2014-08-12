@@ -29,6 +29,13 @@ The following variables may be automatically overridden with Hiera:
 
 ``` yaml
 ---
+# Version compile configuration, if not version is defined the default is false
+# Yyou can define whether to compile from source or not based on long version
+# and define short versions as a fallback if non long version is defined
+"nodejs::version::compile":
+  "v0.10": false
+  "v0.4": true
+  "v0.6.20" : true
 
 # Version aliases, commonly used to bless a specific version
 # Use the "deeper" merge strategy, as with nodejs::version::env
