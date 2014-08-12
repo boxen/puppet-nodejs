@@ -13,6 +13,19 @@ describe "nodejs::version" do
     })
   end
 
+  context "use alias" do
+    let(:title) { "v0.6" }
+
+    it do
+      should contain_class("nodejs")
+
+      should contain_nodejs__alias("v0.6").with({
+        :ensure  => "present",
+        :to => "v0.6.20"
+      })
+    end
+  end
+
   context "compile depending on configuration" do
     let(:title) { "v0.6.20" }
 
