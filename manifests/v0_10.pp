@@ -6,11 +6,11 @@
 
 class nodejs::v0_10 {
   require nodejs
-  require nodejs::v0_10_29
+  require nodejs::v0_10_31
 
   file { "${nodejs::nodenv_root}/versions/v0.10":
     ensure => link,
     owner  => $nodejs::nodenv_user,
-    target => "${nodejs::nodenv_root}/versions/v0.10.29",
+    target => "${nodejs::nodenv_root}/versions/v0.10.31",
   }
 }

@@ -31,4 +31,4 @@ nodejs::module { 'bower':
 * stdlib >= 3.0.0
 
 ##### Latest supported Node.js version
-v0.10.29
+v0.10.31
