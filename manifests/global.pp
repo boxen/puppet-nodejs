@@ -7,8 +7,7 @@
 class nodejs::global($version = 'v0.10') {
   require nodejs
 
-  $klass = join(['nodejs', join(split($version, '\.'), '_')], '::')
-  require $klass
+  ensure_resource('nodejs::version', $version)
 
   validate_re($version, '\Av\d+\.\d+(\.\d+)*\z',
     'Version must be of the form vN.N(.N)')

@@ -1,0 +1,11 @@
+---
+nodejs::version::compile:
+  v0.10: false
+  v0.4: true
+  v0.6.20 : true
+
+nodejs::version::alias:
+  v0.10: v0.10.29
+  v0.8: v0.8.26
+  v0.6: v0.6.20
+  v0.4: v0.4.10
