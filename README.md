@@ -1,6 +1,7 @@
 # Node Puppet Module for Boxen
 
 [![Build Status](https://travis-ci.org/boxen/puppet-nodejs.svg?branch=master)](https://travis-ci.org/boxen/puppet-nodejs)
+[![GitHub release](https://img.shields.io/github/release/boxen/puppet-nodejs.svg)](http://github.com/boxen/puppet-nodejs/releases)
 
 Requires the following boxen modules:
 
