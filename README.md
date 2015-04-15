@@ -10,8 +10,8 @@ Requires the following boxen modules:
 
 ## About
 
-This module supports nove version management with either nodenv from [OiNutter](http://github.com/OiNutter/nodenv).
-This module is heavily based on the official boxen's [ruby module](http://github.com/boxen/puppet-ruby)
+This module supports node version management with nodenv from [OiNutter](http://github.com/OiNutter/nodenv).
+Is heavily based on the official boxen's [ruby module](http://github.com/boxen/puppet-ruby).
 All node versions are installed into `/opt/nodes`.
 
 ## About node-build version
@@ -25,9 +25,9 @@ You can find a release list of versions for node-build [here](https://github.com
 
 ## Breakages since last major version
 
-* nodes now live in /opt/nodes instead of /opt/boxen/nodenv/versions
+* nodes now live in `/opt/nodes` instead of `/opt/boxen/nodenv/versions`
 * the module-data module is now **required**
-* use of [OiNutter/nodenv](http://github.com/OiNutter/nodenv) instead of wfarr
+* use of [OiNutter/nodenv](http://github.com/OiNutter/nodenv) instead of wfarr's version
 * use of [OiNutter/node-build](http://github.com/OiNutter/node-build)
 * npm packages are installed with `npm_module` instead of `nodejs::module`
 * node versions are defined without the leading `v` (`0.10.36` instead of `v0.10.36`)
