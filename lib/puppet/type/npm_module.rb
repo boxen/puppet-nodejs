@@ -1,35 +1,19 @@
-Puppet::Type.newtype :npm_module do
+Puppet::Type.newtype(:npm_module) do
+  @doc = ""
+
   ensurable do
-    newvalue :installed, :event => :module_installed do
-      provider.install
+    newvalue :present do
+      provider.create
     end
 
-    newvalue :uninstalled, :event => :module_removed do
-      provider.uninstall
+    newvalue :absent do
+      provider.destroy
     end
 
-    newvalue(/./) do
-      current = provider.query[:ensure]
+    defaultto :present
 
-      begin
-        provider.install
-      rescue => e
-        self.fail "Could not install: #{e}"
-      end
-
-      unless current == provider.query[:ensure]
-        if current == :absent
-          :module_installed
-        else
-          :module_changed
-        end
-      end
-    end
-
-    aliasvalue :present, :installed
-    aliasvalue :absent,  :uninstalled
-
-    defaultto :installed
+    aliasvalue(:installed, :present)
+    aliasvalue(:uninstalled, :absent)
 
     def retrieve
       provider.query[:ensure]
@@ -38,9 +22,9 @@ Puppet::Type.newtype :npm_module do
     def insync?(is)
       @should.each { |should|
         case should
-        when :present, :installed
+        when :present
           return true unless is == :absent
-        when :absent, :uninstalled
+        when :absent
           return true if is == :absent
         when *Array(is)
           return true
@@ -50,40 +34,55 @@ Puppet::Type.newtype :npm_module do
     end
   end
 
-  newparam :name do
+  newparam(:name) do
     isnamevar
-  end
 
-  newparam :module do
-  end
-
-  newparam :node_version do
-  end
-
-  newparam :nodenv_root do
-  end
-
-  newparam :user do
-  end
-
-  autorequire :nodejs do
-    [@parameters[:node_version].value]
-  end
-
-  autorequire :user do
-    Array.new.tap do |a|
-      if @parameters.include?(:user) && user = @parameters[:user].to_s
-        a << user if catalog.resource(:user, user)
+    validate do |v|
+      unless v.is_a? String
+        raise Puppet::ParseError,
+          "Expected name to be a String, got a #{v.class.name}"
       end
     end
   end
 
-  def exists?
-    @provider.query[:ensure] != :absent
+  newparam(:module) do
+    validate do |v|
+      unless v.is_a? String
+        raise Puppet::ParseError,
+          "Expected module to be a String, got a #{v.class.name}"
+      end
+    end
   end
 
-  def initialize(*args)
-    super
-    self[:notify] = [ "Exec[nodenv rehash after npm module install]" ]
+  newparam(:node_version) do
+    validate do |v|
+      unless v.is_a? String
+        raise Puppet::ParseError,
+          "Expected node_version to be a String, got a #{v.class.name}"
+      end
+    end
+  end
+
+  newparam(:version) do
+    defaultto '>= 0'
+
+    validate do |v|
+      unless v.is_a? String
+        raise Puppet::ParseError,
+          "Expected version to be a String, got a #{v.class.name}"
+      end
+    end
+  end
+
+  autorequire :nodejs do
+    if @parameters.include?(:node_version) && node_version = @parameters[:node_version].to_s
+      if node_version == "*"
+        catalog.resources.find_all { |resource| resource.type == 'Nodejs' }
+      else
+        Array.new.tap do |a|
+          a << node_version if catalog.resource(:nodejs, node_version)
+        end
+      end
+    end
   end
 end
