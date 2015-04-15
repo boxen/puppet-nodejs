@@ -12,10 +12,12 @@ end
 
 def default_test_facts
   {
-    :boxen_home                  => '/test/boxen',
-    :boxen_repo_url_template     => 'https://github.com/%s',
-    :boxen_user                  => 'testuser',
-    :macosx_productversion_major => '10.8',
-    :osfamily                    => 'Darwin'
+    :boxen_home                  => "/test/boxen",
+    :boxen_user                  => "testuser",
+    :boxen_s3_host               => "s3.amazonaws.com",
+    :boxen_s3_bucket             => "boxen-downloads",
+    :boxen_srcdir                => "/test/boxen/src",
+    :macosx_productversion_major => "10.10",
+    :osfamily                    => "Darwin"
   }
 end

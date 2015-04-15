@@ -1,27 +1,59 @@
-Puppet::Type.newtype :nodejs do
+Puppet::Type.newtype(:nodejs) do
+
   ensurable do
-    newvalue :present do
+    newvalue(:present) do
       provider.create
     end
 
-    newvalue :absent do
+    newvalue(:absent) do
       provider.destroy
     end
 
-    defaultto :present
+    defaultto(:installed)
+
+    aliasvalue(:installed, :present)
+    aliasvalue(:uninstalled, :absent)
+
+    def retrieve
+      provider.query[:ensure]
+    end
+
+    def insync?(is)
+      @should.each { |should|
+        case should
+        when :present
+          return true unless is == :absent
+        when :absent
+          return true if is == :absent
+        when *Array(is)
+          return true
+        end
+      }
+      false
+    end
   end
 
-  newparam :version do
-    isnamevar
-
+  newparam(:environment) do
     validate do |value|
-      unless value =~ /\Av\d+\.\d+\.\d+\z/
-        raise Puppet::Error, "Version must be like vN.N.N, not #{value}"
+      unless value.is_a? Hash
+        raise Puppet::ParseError,
+          "Expected environment to be a Hash, got #{value.class.name}"
       end
     end
   end
 
-  newparam :compile do
+  newparam(:version) do
+    isnamevar
+
+    validate do |value|
+      unless value.is_a? String
+        raise Puppet::ParseError,
+          "Expected prefix to be a String, got #{value.class.name}"
+      end
+    end
+  end
+
+  newparam(:compile) do
     defaultto false
 
     validate do |value|
@@ -31,14 +63,17 @@ Puppet::Type.newtype :nodejs do
     end
   end
 
-  newparam :user do
+  newparam(:user) do
+    defaultto Facter.value(:id)
   end
 
-  newparam :nodenv_root do
-  end
-
-  autorequire :repository do
-    [@parameters[:nodenv_root].value]
+  newparam(:node_build) do
+    validate do |value|
+      unless value.is_a? String
+        raise Puppet::ParseError,
+          "Expected node_build to be a String, got #{value.class.name}"
+      end
+    end
   end
 
   autorequire :user do
@@ -49,8 +84,8 @@ Puppet::Type.newtype :nodejs do
     end
   end
 
-  def initialize(*args)
-    super
-    self[:notify] = [ "Exec[nodenv rehash after nodejs install]" ]
+  autorequire :file do
+    %w(/opt/nodes)
   end
+
 end

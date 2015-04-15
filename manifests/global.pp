@@ -1,21 +1,26 @@
-# Public: specify the global node version as per nodenv
+# Public: specify the global node version (only for nodenv)
 #
 # Usage:
 #
-#   class { 'nodejs::global': version => 'v0.10.0' }
+#   class { 'nodejs::global': version => '0.10.36' }
 
-class nodejs::global($version = 'v0.10') {
+class nodejs::global($version = '0.10.36') {
   require nodejs
 
-  ensure_resource('nodejs::version', $version)
+  if $nodejs::provider == 'nodenv' {
+    if $version != 'system' {
+      ensure_resource('nodejs::version', $version)
+      $require = Nodejs::Version[$version]
+    } else {
+      $require = undef
+    }
 
-  validate_re($version, '\Av\d+\.\d+(\.\d+)*\z',
-    'Version must be of the form vN.N(.N)')
-
-  file { "${nodejs::nodenv_root}/version":
-    ensure  => present,
-    owner   => $nodejs::nodenv_user,
-    mode    => '0644',
-    content => "${version}\n",
+    file { "${nodejs::nodenv::prefix}/version":
+      ensure  => present,
+      owner   => $nodejs::user,
+      mode    => '0644',
+      content => "${version}\n",
+      require => $require,
+    }
   }
 }

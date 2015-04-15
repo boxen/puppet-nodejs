@@ -1,30 +1,32 @@
-# Public: Make sure a certain nodejs version is installed and configured
-#         to be used in a certain directory.
+# Set a directory's default node version via nodenv.
+# Automatically ensures that node version is installed via nodenv.
 #
 # Usage:
 #
-#   nodejs::local { '/path/to/somewhere': version => 'v0.10' }
+#     nodejs::local { '/path/to/a/thing': version => '0.10.36' }
 
-define nodejs::local(
-  $version = undef,
-  $path    = $title,
-  $ensure  = present
-) {
-  validate_re($ensure, '\A(present|absent)\z',
-    'Ensure must be one of present or absent')
+define nodejs::local($version = undef, $ensure = present) {
+  include nodejs
 
-  if $ensure == present {
-    validate_re($version, '\Av\d+\.\d+(\.\d+)*\z',
-      'Version must be of the form vN.N(.N)')
-
-    ensure_resource('nodejs::version', $version)
+  case $version {
+    'system': { $_node_local_require = undef }
+    undef:    { $_node_local_require = undef }
+    default:  {
+      ensure_resource('nodejs::version', $version)
+      $_node_local_require = Nodejs::Version[$version]
+    }
   }
 
-  validate_absolute_path($path)
+  file {
+    "${name}/.node-version":
+      ensure  => $ensure,
+      content => "${version}\n",
+      replace => true,
+      require => $_node_local_require ;
 
-  file { "${path}/.node-version":
-    ensure  => $ensure,
-    content => "${version}\n",
-    replace => true
+    "${name}/.nodenv-version":
+      ensure  => absent,
+      before  => File["${name}/.node-version"],
+      require => $_node_local_require ;
   }
 }

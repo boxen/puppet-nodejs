@@ -1,8 +1,8 @@
-# Aliases a (usually shorter) ruby version to another
+# Aliases a (usually shorter) node version to another
 #
 # Usage:
 #
-#     nodejs::alias { 'v0.10': to => 'v0.10.29' }
+#     nodejs::alias { '0.10': to => '0.10.36' }
 
 define nodejs::alias(
   $ensure  = 'installed',
@@ -25,11 +25,10 @@ define nodejs::alias(
     default                 => $ensure,
   }
 
-  file { "${nodejs::nodenv_root}/versions/${version}":
+  file { "/opt/nodes/${version}":
     ensure  => $file_ensure,
     force   => true,
-    owner   => $nodejs::nodenv_user,
-    target  => "${nodejs::nodenv_root}/versions/${to}",
-    require => Nodejs::Version[$to]
+    target  => "/opt/nodes/${to}",
+    require => Nodejs::Version[$to],
   }
 }
