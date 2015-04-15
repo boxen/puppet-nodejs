@@ -1,6 +1,10 @@
----
-script: "./script/cibuild"
-gemfile: "this/does/not/exist"
+sudo: false
+bundler_args: "--path .bundle --binstubs .bundle/binstubs"
+script: "script/cibuild"
 rvm:
   - "1.8.7"
   - "2.0.0"
+cache:
+  directories:
+    - ".bundle"
+    - "spec/fixtures/.tmp/librarian/cache"

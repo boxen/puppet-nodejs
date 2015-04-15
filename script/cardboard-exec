@@ -5,15 +5,12 @@ set -e
 
 cd $(dirname "$0")/..
 
-BUNDLE=.bundle
-BIN=$BUNDLE/binstubs
 SCRIPT=$(basename "$0")
 
-BUNDLE_ARGS="--binstubs $BIN --path $BUNDLE --quiet"
-[ "cibuild" = "$SCRIPT" ] && BUNDLE_ARGS="$BUNDLE_ARGS --no-quiet"
+if [ ! -d ".bundle/binstubs" ]; then
+  bundle install --binstubs .bundle/binstubs
+fi
+PATH=".bundle/binstubs:$PATH"
 
-rm -rf {$BIN,$BUNDLE/config}
-bundle install $BUNDLE_ARGS
-
-bundle exec cardboard bootstrap
-exec bundle exec cardboard "$SCRIPT" "$@"
+cardboard bootstrap
+exec cardboard "$SCRIPT" "$@"
