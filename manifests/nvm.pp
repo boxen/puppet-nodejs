@@ -10,6 +10,22 @@ class nodejs::nvm {
     file { "${boxen::config::envdir}/nvm.sh":
       ensure => absent
     }
+
+    file { "${boxen::config::bindir}/boxen-nvm-exec":
+      ensure => absent
+    }
+
+    file { "${boxen::config::bindir}/node":
+      ensure => absent
+    }
+
+    file { "${boxen::config::bindir}/npm":
+      ensure => absent
+    }
+
+    file { "${boxen::config::bindir}/node-waf":
+      ensure => absent
+    }
   }
 
   exec { 'purge nvm':
