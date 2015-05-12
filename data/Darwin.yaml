@@ -5,7 +5,6 @@ nodejs::version::env:
     BOXEN_S3_BUCKET: "%{::boxen_s3_bucket}"
     CFLAGS: "-I%{::homebrew::config::installdir}/include -march=core2 -O3"
     LDFLAGS: "-L%{::homebrew::config::installdir}/lib"
-    NODE_CONFIGURE_OPTS: "--without-gmp --with-readline-dir=%{::homebrew::config::installdir}/opt/readline"
 
 nodejs::prefix: "%{::boxen::config::home}"
 nodejs::user: "%{::boxen_user}"
