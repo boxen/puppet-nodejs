@@ -64,6 +64,12 @@ npm_module { 'bower for all nodes':
 
 # install a node version
 nodejs::version { '0.12.2': }
+
+# Installing nodenv plugin
+nodejs::nodenv::plugin { 'nodenv-vars':
+  ensure => 'ee42cd9db3f3fca2a77862ae05a410947c33ba09',
+  source  => 'OiNutter/nodenv-vars'
+}
 ```
 
 ## Hiera configuration
@@ -78,6 +84,13 @@ The following variables may be automatically overridden with Hiera:
 
 "nodejs::build::ensure": "f18b3d67756d1cb25ba6e35044f816fd67211b33"
 "nodejs::nodenv::ensure": "v0.2.0"
+
+# nodenv plugins
+"nodejs::nodenv::plugins":
+  "nodenv-vars":
+    "ensure": "ee42cd9db3f3fca2a77862ae05a410947c33ba09"
+    "source": "OiNutter/nodenv-vars"
+
 
 # Environment variables for building specific versions
 # You'll want to enable hiera's "deeper" merge strategy
