@@ -1,6 +1,7 @@
 ---
 script: "./script/cibuild"
 gemfile: "this/does/not/exist"
+sudo: false
 rvm:
   - "1.8.7"
   - "2.0.0"
