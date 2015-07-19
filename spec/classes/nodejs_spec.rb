@@ -3,31 +3,55 @@ require "spec_helper"
 describe "nodejs" do
   let(:facts) { default_test_facts }
 
-  let(:root) { "/test/boxen/nodenv" }
-  let(:versions) { "#{root}/versions" }
-
-  it do
-    should contain_class("nodejs::rehash")
-    should contain_class("nodejs::nvm")
-
-    should contain_repository(root).with({
-      :ensure => "v0.3.3",
-      :force  => true,
-      :source => "wfarr/nodenv",
-      :user   => "testuser"
-    })
-
-    should contain_file(versions).with_ensure("directory")
-
-    should contain_file("/test/boxen/env.d/nodenv.sh").with_ensure("absent")
-    should contain_boxen__env_script("nodejs").with_source("puppet:///modules/nodejs/nodenv.sh")
+  let(:default_params) do
+    {
+      :provider => "nodenv",
+      :prefix   => "/test/boxen",
+    }
   end
 
-  context "Linux" do
-    let(:facts) { default_test_facts.merge(:osfamily => "Linux") }
+  let(:params) { default_params }
+
+  it { should contain_class("nodejs::build") }
+  it { should contain_file("/opt/nodes") }
+
+  context "provider is nodenv" do
+    let(:params) {
+      default_params.merge(:provider => "nodenv")
+    }
+
+    it { should contain_class("nodejs::nodenv") }
+  end
+
+  context "osfamily is Darwin" do
+    let(:facts) {
+      default_test_facts.merge(:osfamily => "Darwin")
+    }
+
+    it { should contain_class("boxen::config") }
+    it { should contain_boxen__env_script("nodejs") }
 
     it do
-      should_not contain_boxen__env_script("nodejs")
+      should contain_file("/opt/nodes").with({
+        :ensure => "directory",
+        :owner  => "testuser",
+      })
+    end
+  end
+
+  context "osfamily is not Darwin" do
+    let(:facts) {
+      default_test_facts.merge(:osfamily => "Linux", :id => "root")
+    }
+
+    it { should_not contain_class("boxen::config") }
+    it { should_not contain_boxen__env_script("nodejs") }
+
+    it do
+      should contain_file("/opt/nodes").with({
+        :ensure => "directory",
+        :owner  => "root",
+      })
     end
   end
 end
