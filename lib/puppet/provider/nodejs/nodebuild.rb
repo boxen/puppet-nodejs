@@ -70,17 +70,6 @@ private
     "/tmp/node-#{version}.tar.bz2"
   end
 
-  # Keep in sync with same-named function in:
-  # https://github.com/boxen/our-boxen/blob/master/script/sync
-  def s3_cellar
-    homebrew_cellar = "#{Facter.value(:homebrew_root)}/Cellar"
-    case homebrew_cellar
-    when "/Cellar", "/opt/boxen/homebrew/Cellar" then ""
-    when "/usr/local/Cellar" then "default/"
-    else "#{Base64.strict_encode64(homebrew_cellar)}/"
-    end
-  end
-
   def precompiled_url
     base = Facter.value(:boxen_download_url_base) ||
       "https://#{Facter.value(:boxen_s3_host)}/#{Facter.value(:boxen_s3_bucket)}"
@@ -92,7 +81,6 @@ private
       /
       #{Facter.value(:operatingsystem)}
       /
-      #{s3_cellar}
       #{os_release}
       /
       #{CGI.escape(version)}.tar.bz2
