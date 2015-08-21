@@ -55,7 +55,7 @@ npm_module { "bower for ${version}":
   node_version => $version,
 }
 
-# ensure a module is installed for all ruby versions
+# ensure a module is installed for all node versions
 npm_module { 'bower for all nodes':
   module       => 'bower',
   version      => '~> 1.4.1',
