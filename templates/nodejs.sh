@@ -8,7 +8,9 @@ export PATH=$NODENV_ROOT/bin:$PATH
 # Load nodenv
 eval "$(nodenv init -)"
 
+export PATH=./node_modules/.bin:$PATH
+
 # Helper for shell prompts and the like
 current_node() {
-  echo "$(nodenv version-name)"
+  echo "$(nodenv version)"
 }
