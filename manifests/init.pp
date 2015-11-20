@@ -18,7 +18,7 @@ class nodejs(
 
   if $::osfamily == 'Darwin' {
     boxen::env_script { 'nodejs-fish':
-      content  => template('nodejs/nodejs.fish'),
+      content  => template('nodejs/nodejs.fish.erb'),
       priority => 'higher',
     }
     boxen::env_script { 'nodejs':
