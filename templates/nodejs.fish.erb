@@ -6,7 +6,7 @@ set -gx NODENV_ROOT <%= scope.lookupvar("::nodejs::nodenv::prefix") %>
 set -gx PATH $NODENV_ROOT/bin $PATH
 
 # Load nodenv
-eval "$(nodenv init -)"
+eval (nodenv init -)
 
 set -gx PATH ./node_modules/.bin $PATH
 
