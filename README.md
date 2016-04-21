@@ -28,8 +28,8 @@ You can find a release list of versions for node-build [here](https://github.com
 
 * nodes now live in `/opt/nodes` instead of `/opt/boxen/nodenv/versions`
 * the module-data module is now **required**
-* use of [OiNutter/nodenv](http://github.com/OiNutter/nodenv) instead of wfarr's version
-* use of [OiNutter/node-build](http://github.com/OiNutter/node-build)
+* use of [nodenv/nodenv](http://github.com/nodenv/nodenv)
+* use of [nodenv/node-build](http://github.com/nodenv/node-build)
 * npm packages are installed with `npm_module` instead of `nodejs::module`
 * node versions are defined without the leading `v` (`0.10.36` instead of `v0.10.36`)
 
