@@ -24,7 +24,7 @@ nodejs::build::ensure: v2.2.7
 nodejs::build::prefix: "%{hiera('nodejs::prefix')}/node-build"
 nodejs::build::user: "%{hiera('nodejs::user')}"
 
-nodejs::nodenv::ensure: v0.3.0
+nodejs::nodenv::ensure: v1.0.0
 nodejs::nodenv::prefix: "%{hiera('nodejs::prefix')}/nodenv"
 nodejs::nodenv::user: "%{hiera('nodejs::user')}"
 
