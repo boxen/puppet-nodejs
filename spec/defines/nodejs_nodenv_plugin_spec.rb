@@ -8,7 +8,7 @@ describe 'nodejs::nodenv::plugin' do
   let(:default_params) do
     {
       :ensure => 'v1.2.0',
-      :source => 'OiNutter/nodenv-vars'
+      :source => 'nodenv/nodenv-vars'
     }
   end
 
