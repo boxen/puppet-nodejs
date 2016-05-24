@@ -19,7 +19,7 @@ class nodejs::nodenv(
   repository { $prefix:
     ensure => $ensure,
     force  => true,
-    source => 'OiNutter/nodenv',
+    source => 'nodenv/nodenv',
     user   => $user
   }
 

@@ -22,7 +22,7 @@ describe "nodejs::nodenv" do
         should contain_repository('/test/boxen/nodenv').with({
           :ensure => 'v0.4.0',
           :force  => true,
-          :source => 'OiNutter/nodenv',
+          :source => 'nodenv/nodenv',
           :user   => 'testuser'
         })
 
@@ -43,20 +43,20 @@ describe "nodejs::nodenv" do
     end
 
     context "when plugins is not empty" do
-      let(:params) { default_params.merge(:plugins => { 'nodenv-vars' => { 'ensure' => 'v1.2.0', 'source' => 'OiNutter/nodenv-vars' } } ) }
+      let(:params) { default_params.merge(:plugins => { 'nodenv-vars' => { 'ensure' => 'v1.2.0', 'source' => 'nodenv/nodenv-vars' } } ) }
 
       it do
         should contain_file('/test/boxen/nodenv/plugins')
         should contain_nodejs__nodenv__plugin('nodenv-vars').with({
           :ensure => 'v1.2.0',
-          :source => 'OiNutter/nodenv-vars'
+          :source => 'nodenv/nodenv-vars'
         })
       end
     end
   end
 
   context "ensure => absent" do
-    let(:params) { default_params.merge(:ensure => 'absent', :plugins => { 'nodenv-vars' => { 'ensure' => 'v1.2.0', 'source' => 'OiNutter/nodenv-vars' } } ) }
+    let(:params) { default_params.merge(:ensure => 'absent', :plugins => { 'nodenv-vars' => { 'ensure' => 'v1.2.0', 'source' => 'nodenv/nodenv-vars' } } ) }
 
     it do
       should contain_repository('/test/boxen/nodenv').with_ensure('absent')

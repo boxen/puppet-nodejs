@@ -4,7 +4,7 @@
 #
 #   nodejs::nodenv::plugin { 'nodenv-vars':
 #     ensure => 'ee42cd9db3f3fca2a77862ae05a410947c33ba09',
-#     source => 'OiNutter/nodenv-vars'
+#     source => 'nodenv/nodenv-vars'
 #   }
 
 define nodejs::nodenv::plugin($ensure, $source) {

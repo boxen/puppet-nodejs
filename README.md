@@ -11,7 +11,7 @@ Requires the following boxen modules:
 
 ## About
 
-This module supports node version management with nodenv from [OiNutter](http://github.com/OiNutter/nodenv).
+This module supports node version management with nodenv from [nodenv](http://github.com/nodenv/nodenv).
 Is heavily based on the official boxen's [ruby module](http://github.com/boxen/puppet-ruby).
 All node versions are installed into `/opt/nodes`.
 
@@ -22,14 +22,14 @@ The node-build version is something you should be managing in your own boxen rep
 rather than depending on this module to update for you. See examples on how to change the node-build
 version in the Hiera section.
 
-You can find a release list of versions for node-build [here](https://github.com/OiNutter/node-build/releases).
+You can find a release list of versions for node-build [here](https://github.com/nodenv/node-build/releases).
 
 ## Breakages since last major version
 
 * nodes now live in `/opt/nodes` instead of `/opt/boxen/nodenv/versions`
 * the module-data module is now **required**
-* use of [OiNutter/nodenv](http://github.com/OiNutter/nodenv) instead of wfarr's version
-* use of [OiNutter/node-build](http://github.com/OiNutter/node-build)
+* use of [nodenv/nodenv](http://github.com/nodenv/nodenv)
+* use of [nodenv/node-build](http://github.com/nodenv/node-build)
 * npm packages are installed with `npm_module` instead of `nodejs::module`
 * node versions are defined without the leading `v` (`0.10.36` instead of `v0.10.36`)
 
@@ -68,7 +68,7 @@ nodejs::version { '0.12.2': }
 # Installing nodenv plugin
 nodejs::nodenv::plugin { 'nodenv-vars':
   ensure => 'ee42cd9db3f3fca2a77862ae05a410947c33ba09',
-  source  => 'OiNutter/nodenv-vars'
+  source  => 'nodenv/nodenv-vars'
 }
 ```
 
@@ -89,7 +89,7 @@ The following variables may be automatically overridden with Hiera:
 "nodejs::nodenv::plugins":
   "nodenv-vars":
     "ensure": "ee42cd9db3f3fca2a77862ae05a410947c33ba09"
-    "source": "OiNutter/nodenv-vars"
+    "source": "nodenv/nodenv-vars"
 
 
 # Environment variables for building specific versions

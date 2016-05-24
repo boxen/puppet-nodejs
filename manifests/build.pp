@@ -10,7 +10,7 @@ class nodejs::build(
   repository { $prefix:
     ensure => $ensure,
     force  => true,
-    source => 'OiNutter/node-build',
+    source => 'nodenv/node-build',
     user   => $user,
   }
 
