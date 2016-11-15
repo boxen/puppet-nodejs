@@ -146,7 +146,7 @@ private
     bindir = "/opt/nodes/#{node_version}/bin"
     execute "#{bindir}/npm #{command} --global", {
       :combine            => true,
-      :user                => user,
+      :uid                => user,
       #Npm versions greater than 0.10.26 return 1 when no dependencies are returned
       :failonfail         => failonfail,
       :override_locale    => false,
@@ -163,7 +163,7 @@ private
     bindir = "/opt/nodes/#{node_version}/bin"
     execute "#{bindir}/npm list --global --json --depth=0 --silent", {
       :combine            => true,
-      :user                => user,
+      :uid                => user,
       #Npm versions greater than 0.10.26 return 1 when no dependencies are returned
       :failonfail         => false,
       :override_locale    => false,
