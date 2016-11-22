@@ -1,0 +1,16 @@
+# Put node-build on PATH
+set -gx PATH <%= scope.lookupvar("::nodejs::build::prefix") %>/bin $PATH
+
+# Configure NODENV_ROOT and put NODENV_ROOT/bin on PATH
+set -gx NODENV_ROOT <%= scope.lookupvar("::nodejs::nodenv::prefix") %>
+set -gx PATH $NODENV_ROOT/bin $PATH
+
+# Load nodenv
+source (nodenv init - | psub)
+
+set -gx PATH ./node_modules/.bin $PATH
+
+# Helper for shell prompts and the like
+function current_node
+  nodenv version
+end
