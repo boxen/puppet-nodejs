@@ -3,7 +3,7 @@
 # This module installs a full nodenv-driven node stack
 #
 class nodejs(
-  $provider = $nodejs::provider,
+  $provider = 'nodenv',
   $prefix   = $nodejs::prefix,
   $user     = $nodejs::user,
 ) {
