@@ -8,3 +8,4 @@ nodejs::version::env:
 
 nodejs::prefix: "%{::boxen::config::home}"
 nodejs::user: "%{::boxen_user}"
+nodejs::provider: 'nodenv'
